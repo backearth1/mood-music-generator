@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心情音乐生成器 - 用音乐表达你的情感</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 心情音乐生成器</h1>
+            <p class="subtitle">说出你的心情，让 AI 为你创作专属音乐</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <form id="moodForm">
+                    <div class="form-group">
+                        <label for="apiKey">🔑 MiniMax API Key</label>
+                        <input
+                            type="password"
+                            id="apiKey"
+                            name="api_key"
+                            placeholder="请输入你的 MiniMax API Key"
+                            required
+                        >
+                        <p class="api-key-hint">
+                            没有 API Key？<a href="https://api.minimaxi.com" target="_blank">点击这里注册获取</a>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="mood">此刻，你的心情是...</label>
+                        <textarea
+                            id="mood"
+                            name="mood"
+                            rows="4"
+                            placeholder="例如：今天阳光很好，心情愉悦&#10;例如：工作压力大，感觉疲惫&#10;例如：思念远方的朋友&#10;例如：对未来充满期待"
+                            required
+                        ></textarea>
+                    </div>
+                    <button type="submit" id="generateBtn" class="btn-primary">
+                        <span class="btn-text">✨ 生成我的专属音乐</span>
+                        <span class="btn-loading" style="display: none;">
+                            <span class="spinner"></span> <span id="loadingText">正在创作中...</span>
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Progress Display -->
+                <div id="progressSection" class="progress-section" style="display: none;">
+                    <div class="progress-card">
+                        <h3>🎼 创作进度</h3>
+                        <div class="progress-steps">
+                            <div class="progress-step" id="step1">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">分析心情...</span>
+                            </div>
+                            <div class="progress-step" id="step2">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">生成歌词...</span>
+                            </div>
+                            <div class="progress-step" id="step3">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">创作音乐...</span>
+                            </div>
+                            <div class="progress-step" id="step4">
+                                <span class="step-icon">⏳</span>
+                                <span class="step-text">处理音频...</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-message" id="progressMessage">正在准备...</p>
+                    </div>
+                </div>
+
+                <div class="quick-moods">
+                    <p>快速选择：</p>
+                    <div class="mood-tags">
+                        <button class="mood-tag" data-mood="今天心情很好，阳光明媚，充满活力">😊 开心</button>
+                        <button class="mood-tag" data-mood="感到有些孤独和忧伤，需要安慰">😔 忧伤</button>
+                        <button class="mood-tag" data-mood="内心平静，享受此刻的宁静">😌 平静</button>
+                        <button class="mood-tag" data-mood="充满激情和动力，准备迎接挑战">🔥 激情</button>
+                        <button class="mood-tag" data-mood="思念远方的人，怀念过去的时光">💭 思念</button>
+                        <button class="mood-tag" data-mood="对未来充满希望和期待">✨ 希望</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultSection" class="result-section" style="display: none;">
+                <div class="result-card">
+                    <h2>🎼 你的专属音乐已生成</h2>
+                    
+                    <div class="music-info">
+                        <div class="info-item">
+                            <strong>音乐风格：</strong>
+                            <p id="musicPrompt"></p>
+                        </div>
+                        <div class="info-item">
+                            <strong>歌词：</strong>
+                            <p id="musicLyrics" class="lyrics"></p>
+                        </div>
+                    </div>
+
+                    <div class="audio-player">
+                        <audio id="audioPlayer" controls controlsList="nodownload">
+                            <source id="audioSource" type="audio/mpeg">
+                            您的浏览器不支持音频播放
+                        </audio>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a id="downloadBtn" href="#" download class="btn-secondary">
+                            📥 下载音乐
+                        </a>
+                        <button id="shareBtn" class="btn-secondary">
+                            📤 分享到朋友圈
+                        </button>
+                        <button id="regenerateBtn" class="btn-outline">
+                            🔄 重新生成
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorSection" class="error-section" style="display: none;">
+                <div class="error-card">
+                    <h3>❌ 生成失败</h3>
+                    <p id="errorMessage"></p>
+                    <button id="retryBtn" class="btn-outline">重试</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>由 MiniMax AI 强力驱动 | 让音乐传递情感</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

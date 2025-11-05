@@ -84,7 +84,9 @@ jobs:
     - name: Fix Kotlin version conflicts
       run: |
         cd mood_music_app_build/android
-        # Add Kotlin BOM to force consistent versions
+        # Update Kotlin version in build.gradle
+        sed -i "s/ext.kotlin_version = .*/ext.kotlin_version = '1.9.0'/" build.gradle
+        # Add Kotlin BOM to app/build.gradle
         cat >> app/build.gradle <<'GRADLE_EOF'
 
         dependencies {

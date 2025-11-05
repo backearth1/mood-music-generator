@@ -33,6 +33,15 @@ jobs:
       run: |
         flutter create --org com.moodmusic --project-name mood_music_app mood_music_app_build
 
+        # Immediately update Kotlin version to 1.9.0
+        cd mood_music_app_build/android
+        sed -i "s/ext.kotlin_version = '[^']*'/ext.kotlin_version = '1.9.0'/" build.gradle
+
+        # Verify the change
+        echo "Kotlin version in build.gradle:"
+        grep "kotlin_version" build.gradle
+        cd ../..
+
     - name: Copy source code
       run: |
         rm -rf mood_music_app_build/lib/*
@@ -80,19 +89,6 @@ jobs:
       run: |
         cd mood_music_app_build
         flutter pub get
-
-    - name: Fix Kotlin version conflicts
-      run: |
-        cd mood_music_app_build/android
-        # Update Kotlin version in build.gradle
-        sed -i "s/ext.kotlin_version = .*/ext.kotlin_version = '1.9.0'/" build.gradle
-        # Add Kotlin BOM to app/build.gradle
-        cat >> app/build.gradle <<'GRADLE_EOF'
-
-        dependencies {
-            implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
-        }
-        GRADLE_EOF
 
     - name: Build APK
       run: |

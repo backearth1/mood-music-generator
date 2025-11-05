@@ -15,28 +15,29 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'zulu'
-        java-version: '11'
+        java-version: '17'
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.19.0'
         channel: 'stable'
 
     - name: Create Flutter project structure
       run: |
         flutter create --org com.moodmusic --project-name mood_music_app mood_music_app_build
 
-    - name: Copy source code
+    - name: Copy source code and Android config
       run: |
         cp -r mood_music_app/lib/* mood_music_app_build/lib/
         cp mood_music_app/pubspec.yaml mood_music_app_build/
+        cp -r mood_music_app/android/* mood_music_app_build/android/
 
     - name: Get dependencies
       run: |
@@ -49,7 +50,7 @@ jobs:
         flutter build apk --release --split-per-abi
 
     - name: Upload APK artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release-apk
         path: mood_music_app_build/build/app/outputs/flutter-apk/*.apk

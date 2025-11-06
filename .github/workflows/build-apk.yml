@@ -126,30 +126,27 @@ jobs:
     - name: Fix Kotlin stdlib conflicts
       run: |
         cd mood_music_app_build/android/app
+        cat >> build.gradle <<'GRADLE_EOF'
 
-        # Add dependency constraints to exclude old kotlin-stdlib-jdk7/jdk8
-        cat >> build.gradle <<'EOF'
-
-configurations.all {
-    resolutionStrategy {
-        force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
-        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0'
-        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
-    }
-}
-
-dependencies {
-    constraints {
-        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk7') {
-            because 'Kotlin stdlib is now combined in main stdlib'
+        configurations.all {
+            resolutionStrategy {
+                force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
+                force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0'
+                force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
+            }
         }
-        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8') {
-            because 'Kotlin stdlib is now combined in main stdlib'
-        }
-    }
-}
-EOF
 
+        dependencies {
+            constraints {
+                implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk7') {
+                    because 'Kotlin stdlib is now combined in main stdlib'
+                }
+                implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8') {
+                    because 'Kotlin stdlib is now combined in main stdlib'
+                }
+            }
+        }
+        GRADLE_EOF
         echo "=== Updated app/build.gradle ==="
         tail -30 build.gradle
         cd ../../..

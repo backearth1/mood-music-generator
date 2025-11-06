@@ -20,7 +20,7 @@ class MinimaxService {
   MinimaxService({required this.apiKey}) {
     _dio = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 120),  // 2 minutes for music generation
     ));
   }
 

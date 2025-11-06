@@ -1,0 +1,93 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:  # 手动触发
+  push:
+    branches: [ master ]
+    paths:
+      - 'mood_music_app/**'
+      - '.github/workflows/build-ios.yml'
+
+jobs:
+  build:
+    name: Build iOS
+    runs-on: macos-latest  # 必须使用 macOS runner
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.0'
+        channel: 'stable'
+
+    - name: Create iOS platform support
+      run: |
+        cd mood_music_app
+        # Check if iOS folder exists, if not create it
+        if [ ! -d "ios" ]; then
+          echo "Creating iOS platform support..."
+          flutter create --platforms=ios .
+        else
+          echo "iOS folder already exists"
+        fi
+
+    - name: Install dependencies
+      run: |
+        cd mood_music_app
+        flutter pub get
+
+    - name: Build iOS (without code signing)
+      run: |
+        cd mood_music_app
+        flutter build ios --release --no-codesign
+        
+    - name: Create IPA (unsigned)
+      run: |
+        cd mood_music_app
+        mkdir -p Payload
+        cp -r build/ios/iphoneos/Runner.app Payload/
+        zip -r MoodMusic-unsigned.ipa Payload
+        rm -rf Payload
+        
+    - name: Upload IPA artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-ipa-unsigned
+        path: mood_music_app/MoodMusic-unsigned.ipa
+
+    - name: Create Release Note
+      run: |
+        cat > release_note.txt <<'RELEASE_EOF'
+        ⚠️ **注意**: 这是未签名的 iOS IPA 文件
+        
+        **无法直接安装到 iPhone**，因为：
+        1. iOS 应用必须使用 Apple 开发者证书签名
+        2. 需要在设备的 UDID 列表中注册
+        
+        **如何使用**:
+        方案 1: 使用 Xcode 手动签名
+        - 下载 IPA
+        - 解压获取 .app 文件
+        - 在 Xcode 中重新签名并安装
+        
+        方案 2: 使用第三方签名工具
+        - AltStore
+        - Sideloadly
+        - 需要免费 Apple ID
+        
+        方案 3: 企业签名（推荐）
+        - 需要付费 Apple Developer 账号 ($99/年)
+        - 配置 GitHub Secrets 添加证书
+        - 可以自动签名和发布
+        RELEASE_EOF
+        
+    - name: Upload Release Note
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-release-note
+        path: release_note.txt

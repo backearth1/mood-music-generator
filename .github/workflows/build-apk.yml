@@ -88,6 +88,18 @@ jobs:
         cp -r mood_music_app/lib/* mood_music_app_build/lib/
         cp mood_music_app/pubspec.yaml mood_music_app_build/
 
+        # Copy assets folder
+        if [ -d "mood_music_app/assets" ]; then
+          cp -r mood_music_app/assets mood_music_app_build/
+          echo "Assets folder copied"
+        fi
+
+        # Copy app icons (mipmap resources)
+        if [ -d "mood_music_app/android/app/src/main/res" ]; then
+          cp -r mood_music_app/android/app/src/main/res/mipmap-* mood_music_app_build/android/app/src/main/res/
+          echo "App icons copied"
+        fi
+
     - name: Update Android permissions
       run: |
         cat > mood_music_app_build/android/app/src/main/AndroidManifest.xml <<'EOF'

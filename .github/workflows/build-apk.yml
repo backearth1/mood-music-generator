@@ -123,38 +123,35 @@ jobs:
         </manifest>
         EOF
 
-    - name: Fix Kotlin stdlib conflicts
+    - name: Fix Kotlin version and conflicts
       run: |
-        cd mood_music_app_build/android/app
+        cd mood_music_app_build/android
 
-        # Update apply plugin line to use kotlin-android
-        sed -i "s/apply plugin: 'kotlin-android'/apply plugin: 'org.jetbrains.kotlin.android'/" build.gradle
+        # Create gradle.properties to force Kotlin version globally
+        cat > gradle.properties <<'PROPS_EOF'
+        org.gradle.jvmargs=-Xmx4096m
+        android.useAndroidX=true
+        android.enableJetifier=true
+        kotlin.version=1.9.0
+        PROPS_EOF
 
-        # Add Kotlin options after android block
+        # Update app build.gradle with Kotlin version enforcement
+        cd app
         cat >> build.gradle <<'GRADLE_EOF'
 
         configurations.all {
             resolutionStrategy {
                 force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
-                force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0'
-                force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0'
-            }
-        }
-
-        dependencies {
-            implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
-            constraints {
-                implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk7') {
-                    because 'Kotlin stdlib is now combined in main stdlib'
-                }
-                implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8') {
-                    because 'Kotlin stdlib is now combined in main stdlib'
+                eachDependency {
+                    if (it.requested.group == 'org.jetbrains.kotlin') {
+                        it.useVersion '1.9.0'
+                    }
                 }
             }
         }
         GRADLE_EOF
         echo "=== Updated app/build.gradle ==="
-        tail -35 build.gradle
+        tail -40 build.gradle
         cd ../../..
 
     - name: Get dependencies

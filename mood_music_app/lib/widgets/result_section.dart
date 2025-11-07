@@ -243,7 +243,7 @@ class _ResultSectionState extends State<ResultSection> {
 
           // Music Info
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
             decoration: BoxDecoration(
               color: const Color(0xFFF8F9FA),
               borderRadius: BorderRadius.circular(12),
@@ -279,18 +279,15 @@ class _ResultSectionState extends State<ResultSection> {
                   ),
                 ),
                 const SizedBox(height: 3),
-                Container(
-                  constraints: const BoxConstraints(maxHeight: 100),
-                  child: SingleChildScrollView(
-                    child: Text(
-                      widget.response.lyrics,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF000000),
-                        height: 1.3,
-                      ),
-                    ),
+                Text(
+                  widget.response.lyrics,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF000000),
+                    height: 1.3,
                   ),
+                  maxLines: 8,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 if (widget.response.llmTraceId != null || widget.response.musicTraceId != null) ...[
                   const SizedBox(height: 12),

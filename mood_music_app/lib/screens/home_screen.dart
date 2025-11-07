@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // Header
                 const SizedBox(height: 20),
                 const Text(
-                  '🎵 心情音乐生成器',
+                  '心情音乐生成器',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,

@@ -279,15 +279,18 @@ class _ResultSectionState extends State<ResultSection> {
                   ),
                 ),
                 const SizedBox(height: 3),
-                Text(
-                  widget.response.lyrics,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF333),
-                    height: 1.4,
+                Container(
+                  constraints: const BoxConstraints(maxHeight: 100),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      widget.response.lyrics,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF000000),
+                        height: 1.3,
+                      ),
+                    ),
                   ),
-                  maxLines: 6,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 if (widget.response.llmTraceId != null || widget.response.musicTraceId != null) ...[
                   const SizedBox(height: 12),

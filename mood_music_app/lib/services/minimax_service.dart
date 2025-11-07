@@ -45,8 +45,8 @@ class MinimaxService {
                   '请严格按照 JSON 格式返回：\n'
                   '{"prompt": "音乐风格描述", "lyrics": "歌词内容"}\n\n'
                   '要求：\n'
-                  '1. prompt: 20-40字，包含风格、情绪、场景。例如："流行,难过,下雨天"\n'
-                  '2. lyrics: 60-120字，简短精炼。使用\\n分隔每行，包含[Verse]和[Chorus]即可'
+                  '1. prompt: 30-60字，用逗号分隔。必须包含：曲风（如爵士/流行/摇滚）、人声类型（男声/女声）、乐器（如钢琴/吉他）、情绪、氛围。例如："爵士,男声,钢琴伴奏,忧郁,深夜酒吧"\n'
+                  '2. lyrics: 80-150字。结构完整但精炼，使用\\n分隔。必须包含：[Intro], [Verse], [Pre-Chorus], [Chorus], [Outro]。每个部分2-4行即可'
             },
             {
               'role': 'user',
@@ -88,9 +88,9 @@ class MinimaxService {
 
         // Fallback: Use default prompt and lyrics
         return {
-          'prompt': '流行,温柔,午后',
+          'prompt': '流行,女声,吉他伴奏,温柔,午后阳光',
           'lyrics':
-              '[Verse]\n心情如云朵\n飘荡天空\n[Chorus]\n音乐带走烦恼\n旋律治愈心灵',
+              '[Intro]\n轻轻的\n微风吹过\n[Verse]\n心情如云朵\n飘荡在天空\n[Chorus]\n音乐带走烦恼\n旋律治愈心灵\n[Outro]\n慢慢地\n找回宁静',
           'llm_trace_id': llmTraceId,
         };
       } else {
@@ -101,9 +101,9 @@ class MinimaxService {
       print('Error calling LLM API: $e');
       // Return default values on error
       return {
-        'prompt': '流行,温柔,午后',
+        'prompt': '流行,女声,吉他伴奏,温柔,午后阳光',
         'lyrics':
-            '[Verse]\n心情如云朵\n飘荡天空\n[Chorus]\n音乐带走烦恼\n旋律治愈心灵',
+            '[Intro]\n轻轻的\n微风吹过\n[Verse]\n心情如云朵\n飘荡在天空\n[Chorus]\n音乐带走烦恼\n旋律治愈心灵\n[Outro]\n慢慢地\n找回宁静',
         'llm_trace_id': 'Error: $e',
       };
     }

@@ -243,7 +243,7 @@ class _ResultSectionState extends State<ResultSection> {
 
           // Music Info
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xFFF8F9FA),
               borderRadius: BorderRadius.circular(12),

@@ -204,15 +204,15 @@ class ProgressSection extends StatelessWidget {
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 3),
           Text(
             description,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 9,
+              fontSize: 10,
               color: isCompleted || isActive
-                  ? const Color(0xFF888)
-                  : const Color(0xFFCCC),
+                  ? const Color(0xFF666)
+                  : const Color(0xFF999),
             ),
           ),
         ],

@@ -102,7 +102,7 @@ class _ResultSectionState extends State<ResultSection> {
           widget.response.audioUrl.startsWith('https://')) {
         // Share URL directly
         await Share.share(
-          '🎵 我的心情音乐\n\n${widget.response.lyrics}\n\n音频链接: ${widget.response.audioUrl}',
+          '我的心情音乐\n\n${widget.response.lyrics}\n\n音频链接: ${widget.response.audioUrl}',
         );
       } else {
         // Share local file
@@ -110,7 +110,7 @@ class _ResultSectionState extends State<ResultSection> {
         if (await file.exists()) {
           await Share.shareXFiles(
             [XFile(widget.response.audioUrl)],
-            text: '🎵 我的心情音乐\n\n${widget.response.lyrics}',
+            text: '我的心情音乐\n\n${widget.response.lyrics}',
           );
         } else {
           if (mounted) {
@@ -161,7 +161,7 @@ class _ResultSectionState extends State<ResultSection> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
-            '🎵 你的音乐已生成',
+            '你的音乐已生成',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

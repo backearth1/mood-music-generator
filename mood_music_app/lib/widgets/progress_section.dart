@@ -28,7 +28,7 @@ class ProgressSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const Text(
-            '🎼 创作进度',
+            '创作进度',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

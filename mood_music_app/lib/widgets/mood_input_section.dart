@@ -38,7 +38,7 @@ class MoodInputSection extends StatelessWidget {
         children: [
           // API Key Input
           const Text(
-            '🔑 MiniMax API Key',
+            'MiniMax API Key',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -66,14 +66,14 @@ class MoodInputSection extends StatelessWidget {
           const SizedBox(height: 8),
           const SelectableText(
             '没有 API Key？请访问:\nhttps://platform.minimaxi.com/user-center/basic-information/interface-key',
-            style: TextStyle(fontSize: 11, color: Color(0xFF666), height: 1.4),
+            style: TextStyle(fontSize: 11, color: Color(0xFF000000), height: 1.4),
           ),
 
           const SizedBox(height: 20),
 
           // Mood Input
           const Text(
-            '💭 描述你的心情',
+            '描述你的心情',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -179,7 +179,7 @@ class MoodInputSection extends StatelessWidget {
                     ),
                   )
                 : const Text(
-                    '🎵 生成我的音乐',
+                    '生成我的音乐',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

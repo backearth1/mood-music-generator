@@ -328,13 +328,8 @@ pkill -f "python3 main.py"
 
 MIT License
 
-## 🙏 致谢
-
-- [MiniMax AI](https://www.minimaxi.com) - 提供强大的 AI 能力
-- FastAPI - 现代化的 Python Web 框架
-- Flutter - 优秀的跨平台移动开发框架
-
 ## 📞 支持与反馈
 
-- 问题反馈：[GitHub Issues](https://github.com/MiniMax-OpenPlatform/mood-music-generator/issues)
-- MiniMax API 文档：[平台文档](https://platform.minimaxi.com/docs)
+<div align="center">
+  <img src="Qcode.png" alt="服务支持二维码" width="200"/>
+</div>
